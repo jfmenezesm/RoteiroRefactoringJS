@@ -52,29 +52,6 @@ function getPeca(pecas, apresentacao) {
 }
 
 // função extraída
-function calcularTotalApresentacao(pecas, apre) {
-  let total = 0;
-  switch (getPeca(pecas, apre).tipo) {
-    case "tragedia":
-      total = 40000;
-      if (apre.audiencia > 30) {
-        total += 1000 * (apre.audiencia - 30);
-      }
-      break;
-    case "comedia":
-      total = 30000;
-      if (apre.audiencia > 20) {
-        total += 10000 + 500 * (apre.audiencia - 20);
-      }
-      total += 300 * apre.audiencia;
-      break;
-      default:
-        throw new Error(`Peça desconhecia: ${getPeca(pecas, apre).tipo}`);
-  }
-  return total;
-}
-
-// função extraída
 function formatarMoeda(valor) {
   return new Intl.NumberFormat("pt-BR",
     { style: "currency", currency: "BRL",
@@ -88,7 +65,7 @@ function gerarFaturaStr (fatura, pecas) {
                             minimumFractionDigits: 2 }).format;
     */
     for (let apre of fatura.apresentacoes) {
-      faturaStr += `  ${getPeca(pecas, apre).nome}: ${formatarMoeda(calcularTotalApresentacao(pecas, apre))} (${apre.audiencia} assentos)\n`;
+      faturaStr += `  ${getPeca(pecas, apre).nome}: ${formatarMoeda(calc.calcularTotalApresentacao(pecas, apre))} (${apre.audiencia} assentos)\n`;
   }
   faturaStr += `Valor total: ${formatarMoeda(calc.calcularTotalFatura(pecas, fatura.apresentacoes))}\n`;
   faturaStr += `Créditos acumulados: ${calc.calcularTotalCreditos(pecas, fatura.apresentacoes)} \n`;
